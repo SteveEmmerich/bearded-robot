@@ -2,7 +2,7 @@
 
 var express = require('express');
 var kraken = require('kraken-js');
-
+var db = require('./lib/couch');
 
 var options, app;
 
