@@ -23,10 +23,17 @@
             }
         }
     },
+
     "databaseConfig": {
         "host": "localhost",
-        "database": "shocart"
+        "usersDatabase": "users",
+        "ppDatabase": "shocart"
     },
+
+    "bcrypt": {
+        "difficulty": 8
+    },
+
     "paypalConfig": {
         "host": "api.sandbox.paypal.com",
         "port": "",
@@ -82,6 +89,31 @@
             }
         },
 
+        "flash": {
+            "priority": 91,
+            "enabled": true,
+            "module": {
+                "name": "connect-flash",
+                "method": "flash"
+            }
+        },
+
+        "isAuthenticated": {
+            "enabled": true,
+            "priority": 111,
+            "module": {
+                "name": "path:./lib/auth",
+                "method": "isAuthenticated"
+            }
+        },
+        "injectUser": {
+            "enabled": true,
+            "priority": 112,
+            "module": {
+                "name": "path:./lib/auth",
+                "method": "injectUser"
+            }
+        },
         "locale": {
             "priority": 95,
             "enabled": true,
