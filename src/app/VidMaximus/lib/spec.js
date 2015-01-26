@@ -3,7 +3,7 @@
 var express = require('express'),
 	passport = require('passport'),
 	auth = require('../lib/auth'),
-	userLib = require('./user')(),
+	userLib = require('../lib/users')(),
 	db = require('../lib/database'),
 	crypto = require('../lib/crypto');
 
@@ -23,7 +23,7 @@ module.exports = function spec(app)
 		onconfig: function(config, next)
 		{
 			var dbConfig = config.get('databaseConfig'),
-				cryptConfig = config.get('bcryto');
+				cryptConfig = config.get('bcrypt');
 
 			crypto.setCryptLevel(cryptConfig.difficulty);
 			db.config(dbConfig);

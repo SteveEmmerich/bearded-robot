@@ -3,7 +3,7 @@
 **/
 'use strict';
 
-var crypto = function() 
+var crypto = function()
 {
 	var cryptLevel = -1;
 	this.getCryptLevel = function()
@@ -19,4 +19,4 @@ var crypto = function()
 	};
 };
 
-model.exports = new crypto();
+module.exports = new crypto();
