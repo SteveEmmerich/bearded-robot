@@ -1,7 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
-    crytpo = require('crypto');
+    crypto = require('../lib/crypto');
 
 var userModel = function () {
     var userSchema = mongoose.Schema({
@@ -19,7 +19,7 @@ var userModel = function () {
             return;
         }
 
-        var hasedPwd = bcrypt.hashSync(user.password, crypto.getCryptLevel());
+        var hashedPwd = bcrypt.hashSync(user.password, crypto.getCryptLevel());
 
         user.password = hashedPwd;
 

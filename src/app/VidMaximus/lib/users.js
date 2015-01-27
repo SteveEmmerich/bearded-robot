@@ -28,7 +28,7 @@ var UserLibrary = function()
 		{
 			done(null, user.id);
 		},
-		deserialise: function(id, done)
+		deserialize: function(id, done)
 		{
 			User.findOne({
 				_id: id

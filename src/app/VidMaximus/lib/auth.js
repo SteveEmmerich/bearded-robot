@@ -7,17 +7,17 @@ var User = require('../models/user'),
 exports.config = function(settings)
 {	};
 
-exports.LocalStrategy = function()
+exports.localStrategy = function()
 {
 	return new LocalStrategy(function(username, password, done)
 	{
 		User.findOne(
 		{
 			login: username
-		}, 
-		function(err, user) 
+		},
+		function(err, user)
 		{
-			if(err) 
+			if(err)
 			{
 				return done(err);
 			}
@@ -32,7 +32,7 @@ exports.LocalStrategy = function()
 
 			if(!user.passwordMatches(password))
 			{
-				return done(null, false, 
+				return done(null, false,
 				{
 					message: 'Incorrect Password'
 				});
@@ -41,7 +41,7 @@ exports.LocalStrategy = function()
 			done(null, user);
 		});
 	});
-}
+};
 
 exports.isAuthenticated = function()
 {
@@ -67,7 +67,7 @@ exports.isAuthenticated = function()
 		{
 			req.session.goingTo = req.url;
 			req.flash('error', 'Please log in to view this page');
-			req.redirect('/login');
+			res.redirect('/login');
 		}
 		else if (blacklist[role] && blacklist[role][route] === true)
 		{

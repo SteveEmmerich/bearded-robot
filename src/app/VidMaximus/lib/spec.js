@@ -6,6 +6,7 @@ var express = require('express'),
 	userLib = require('../lib/users')(),
 	db = require('../lib/database'),
 	crypto = require('../lib/crypto');
+//paypal = require('paypal-rest-sdk'),
 
 module.exports = function spec(app)
 {
@@ -15,7 +16,7 @@ module.exports = function spec(app)
 		passport.serializeUser(userLib.serialize);
 		passport.deserializeUser(userLib.deserialize);
 
-		app.use(passport.initalize());
+		app.use(passport.initialize());
 		app.use(passport.session());
 	});
 
@@ -23,10 +24,12 @@ module.exports = function spec(app)
 		onconfig: function(config, next)
 		{
 			var dbConfig = config.get('databaseConfig'),
+              //  paypalConfig = config.get('paypalConfig'),
 				cryptConfig = config.get('bcrypt');
 
 			crypto.setCryptLevel(cryptConfig.difficulty);
 			db.config(dbConfig);
+            //paypal.configure(paypalConfig);
 			userLib.addUsers();
 			next(null, config);
 		}
