@@ -16,7 +16,8 @@
     "dustjs-linkedin": "~2.3.6",
     "adaro": "~0.1.7",
     "localizr": "~0.1.5",
-    "stylus": "~0.42.3"
+    "stylus": "~0.42.3",
+    "nib": "~1.1.0"
   },
   "devDependencies": {
     "mocha": "^1.18.0",

@@ -25,16 +25,14 @@ gradient($color= #F5F5F5, $start= #EEE, $stop = #FFF) {
 bw-gradient($color = #F5F5F5, $start= 0, $stop = 255) {
   background: $color;
   background: -webkit-gradient(linear,
-                               left bottom,
-                               left top,
+                               left-bottom,
+                               left-top,
                                color-stop(0, rgb($start, $start, $start)),
                                color-stop(1, rgb($stop, $stop, $stop)));
-  background: -ms-linear-gradient(bottom,
-                                  rgb($start, $start, $start) 0%,
-                                  rgb($stop, $stop, $stop) 100%);
-  background: -moz-linear-gradient(center bottom,
-                                   rgb($start, $start, $start) 0%,
-                                   rgb($stop, $stop, $stop) 100%);
+  background: -ms-linear-gradient(bottom, rgb($start, $start, $start) 0%, rgb($stop, $stop, $stop) 100%);
+  background: -moz-linear-gradient(center-bottom,
+                                    rgb($start, $start, $start) 0%,
+                                    rgb($stop, $stop, $stop) 100%);
   background: -o-linear-gradient(rgb($stop, $stop, $stop),
                                  rgb($start, $start, $start));
   filter: "progid:DXImageTransform.Microsoftgradient(startColorstr='%d', endColorstr='%d', GradientType=0)" % (rgb($stop, $stop, $stop), rgb($start, $start, $start));
@@ -75,9 +73,9 @@ opacity($opacity = 0.5) {
   -khtml-opacity: $opacity;
   -webkit-opacity: $opacity;
   opacity: $opacity;
-$opperc = $opacity * 100;
--ms-filter: unquote("progid:DXImageTransform.MicrosoftAlpha(opacity={$opperc})");
-filter: unquote("alpha(opacity={$opperc})");
+  $opperc = $opacity * 100;
+  -ms-filter: "progid:DXImageTransform.MicrosoftAlpha(opacity={$opperc})";
+  filter: alpha(opacity, $opperc);
 }
 transition-duration($duration = 0.2s) {
   -moz-transition-duration: $duration;
@@ -85,12 +83,12 @@ transition-duration($duration = 0.2s) {
   -o-transition-duration: $duration;
   transition-duration: $duration;
 }
-transform(...) {
-    -webkit-transform: $arguments;
-    -moz-transform: $arguments;
-    -o-transform: $arguments;
-    -ms-transform: $arguments;
-    transform: $arguments;
+transform() {
+    -webkit-transform: arguments;
+    -moz-transform: arguments;
+    -o-transform: arguments;
+    -ms-transform: arguments;
+    transform: arguments;
 }
 rotation($deg = 5deg){
 transform(rotate($deg));
@@ -109,10 +107,10 @@ inner-shadow($horizontal=0, $vertical=1px, $blur=2px, $alpha = 0.4) {
                              -moz-box-shadow: inset $horizontal $vertical $blur rgba(0, 0, 0, $alpha);
                              box-shadow: inset $horizontal $vertical $blur rgba(0, 0, 0, $alpha);
 }
-box-shadow($arguments) {
-    -webkit-box-shadow: $arguments;
-    -moz-box-shadow: $arguments;
-    box-shadow: $arguments;
+box-shadow() {
+    -webkit-box-shadow: arguments;
+    -moz-box-shadow: arguments;
+    box-shadow: arguments;
 }
 box-sizing($sizing = border-box) {
   -ms-box-sizing: $sizing;
