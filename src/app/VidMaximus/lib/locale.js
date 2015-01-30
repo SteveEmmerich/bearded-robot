@@ -3,7 +3,7 @@
  * Copyright 2015 by Shade Tech Inc
  * Description:
  */
-'use strict'
+'use strict';
 module.exports = function()
 {
     return function(req, res, next)

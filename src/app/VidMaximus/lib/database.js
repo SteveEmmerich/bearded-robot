@@ -1,7 +1,7 @@
 /**
 * Library for mongodb connection
 **/
-'use strict'
+'use strict';
 
 var mongoose = require('mongoose');
 

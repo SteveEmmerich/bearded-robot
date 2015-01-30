@@ -14,7 +14,7 @@ module.exports = function getBundle(req, res, next)
     var engine = res.app.kraken.get('bundle engine');
     if (bundle === undefined)
     {
-        bundle = bundalo({'contentPath': i18n.contentPath, 'fallback': i18n.fallback, 'engine': engine})
+        bundle = bundalo({'contentPath': i18n.contentPath, 'fallback': i18n.fallback, 'engine': engine});
     }
     res.bundle = bundle;
     next();

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /* auth.js */
 
 var User = require('../models/user'),

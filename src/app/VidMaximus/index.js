@@ -10,7 +10,7 @@ app.use(kraken(options));
 
 app.listen(port, function(err)
 {
-	console.log('listening');
+	console.log('listening on: ', port);
 })
 
 /*app.on('start', function () {
