@@ -2,20 +2,27 @@
 	<div class="page-header">
 		<h1 data-ng-bind="video.name"></h1>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == video.user._id))">
-		<a class="btn btn-primary" href="/#!/videos/{{video._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="video.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="video.user.displayName"></span>
-		</em>
-	</small>
+    <div class="videogular-container">
+          <videogular vg-theme="video.config.theme">
+            <vg-media vg-src="video.config.sources" vg-tracks="video.config.tracks">
+            </vg-media>
+            <vg-controls>
+                <vg-play-pause-button>
+                </vg-play-pause-button>
+                	<vg-time-display>{{ currentTime | date:'mm:ss' }}</vg-time-display>
+                    <vg-scrub-bar>
+                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-time-display>{{ timeLeft | date:'mm:ss' }}</vg-time-display>
+                    <vg-volume>
+                    <vg-mute-button></vg-mute-button>
+                    <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+            </vg-controls>
+            <vg-overlay-play></vg-overlay-play>
+            <vg-poster vg-url='video.plugins.poster'></vg-poster>
+          </videogular>
+          
+    </div>
 </section>

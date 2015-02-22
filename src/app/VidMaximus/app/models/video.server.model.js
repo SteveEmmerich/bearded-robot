@@ -24,27 +24,38 @@ var VideoSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-    hashRef: {
+    originalname: {
         type: String,
         default: '',
-        required: 'Create Hash'
     },
-    fileLoc: {
+    encoding: {
+        type: String,
+        default: '7bit',
+    },
+    minetype: {
+        type: String,
+        default: 'video/x-msvideo',
+    },
+    path: {
         type: String,
         default: 'data/videos'
     },
-    lastModified: {
-        type: Date,
-        default: Date.now
+    extension: {
+        type: String,
+        default: 'mp4'
     },
     size: {
-        type: String,
-        default: ''
-
+        type: Number,
+        default: 0,
+        required: 'size needed'
     },
-    type: {
-        type: String,
-        default: ''
+    truncated: {
+        type: Boolean,
+        default: false
+    },
+    dirty: {
+        type: Boolean,
+        default: false
     }
 });
 

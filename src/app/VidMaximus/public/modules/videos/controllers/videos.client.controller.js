@@ -2,18 +2,18 @@
 
 // Videos controller
 angular.module('videos').controller('VideosController',
-    ['$scope', '$stateParams', '$location', 'Authentication', 'Videos','FileUploader', 'Transcode',
-	function($scope, $stateParams, $location, Authentication, Videos, FileUploader, Transcode) {
+    ['$scope', '$stateParams', '$location', '$sce', '$threadRun', 'Authentication', 'Videos','FileUploader',
+	function($scope, $stateParams, $location, $sce, $threadRun, Authentication, Videos, FileUploader) {
 		$scope.authentication = Authentication;
         var uploader = $scope.uploader = new FileUploader({
-            url: '/uploads'
+            url: '/videos'
         });
         uploader.filters.push({
             name: 'videoFilter',
             fn: function(item, options)
             {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|mp4|mov|mpeg|mkv|avi|web|'.indexOf(type) !== -1;
+                return '|mp4|mov|mpeg|mkv|avi|web|x-msvideo|'.indexOf(type) !== -1;
             }
         });
 		// Create new Video
@@ -27,14 +27,14 @@ angular.module('videos').controller('VideosController',
 			});
 
 			// Redirect after save
-			video.$save(function(response) {
+			/*video.$save(function(response) {
 				//$location.path('videos/' + response._id);
 
 				// Clear form fields
 				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
-			});
+			});*/
 		};
 
 		// Remove existing Video
@@ -67,14 +67,43 @@ angular.module('videos').controller('VideosController',
 
 		// Find a list of Videos
 		$scope.find = function() {
-			$scope.videos = Videos.query();
+			$scope.videos = Videos.query(function()
+			{
+		        for (var video in $scope.videos)
+		        {
+		            video.config = {
+		                sources: [
+		                    {src: $sce.trustAsResourceUrl(video.path), type: video.type}
+		                ],
+			            tracks: [],
+            		    theme: 'lib/videogular-themes-default/videogular.css',
+            		    plugins: {
+            		        poster: ''
+            		    }
+            		};
+                }
+			});        
 		};
 
 		// Find existing Video
 		$scope.findOne = function() {
 			$scope.video = Videos.get({ 
 				videoId: $stateParams.videoId
-			});
+			},
+			function()
+			{
+		        $scope.video.config = {
+		            sources: [
+		                {src: $sce.trustAsResourceUrl('videos/raw/' + $scope.video.name), type: 'video/mp4'}
+		            ],
+			        tracks: [],
+        		    theme: 'lib/videogular-themes-default/videogular.css',
+        		    plugins: {
+        		        poster: ''
+        		    }
+        		};
+        		console.log($scope.video);
+            });
 		};
         // CALLBACKS
         uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
@@ -82,6 +111,17 @@ angular.module('videos').controller('VideosController',
         };
         uploader.onAfterAddingFile = function(fileItem) {
             console.info('onAfterAddingFile', fileItem);
+            $threadRun(ffmpeg_run{
+                argunments: [],
+                files: {
+                    data: fileItem.file,
+                    name: fileItem.name
+                }
+            }).then(function(thumbs)
+            {
+                fileItem.thumbs = thumbs;
+            });
+                
 
         };
         uploader.onAfterAddingAll = function(addedFileItems) {

@@ -8,26 +8,56 @@ var mongoose = require('mongoose'),
 	Video = mongoose.model('Video'),
 	_ = require('lodash'),
     crypto = require('crypto'),
-    config = require('../../config/config');
+    config = require('../../config/config'),
+    fs = require('fs'),
+    path = require('path');
 
 /**
  * Create a Video
  */
 exports.create = function(req, res) {
-	var video = new Video(req.body);
+    console.log('Body ', req.file, 'maybe files:', req.files);
+	var video = new Video(req.files.file);
 	video.user = req.user;
-    var shasum = crypto.createHash('sha1');
-    video.hashRef = shasum.update(video.name).digest('base64');
-    video.fileLoc = config.video.location + '/' + video.hashRef;
-	video.save(function(err) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(video);
-		}
-	});
+    console.log(JSON.stringify(video));
+    video.dirty = true;
+    //res.jsonp(video);
+    if (config.video.saveLocal)
+    {
+        video.save(function(err) 
+        {
+            if (err) 
+            {
+			    return res.status(400).send({
+			    	message: errorHandler.getErrorMessage(err)
+			    });
+		    } 
+		    else 
+		    {
+			    res.jsonp(video);
+            }
+        });
+        console.log('Saving locally');
+       
+    }
+    else
+    {
+        //post
+        video.save(function(err) 
+        {
+            if (err) 
+            {
+			    return res.status(400).send({
+			    	message: errorHandler.getErrorMessage(err)
+			    });
+		    } 
+		    else 
+		    {
+			    res.jsonp(video);
+            }
+        });
+        console.log('do post');
+    }
 };
 
 /**
@@ -83,6 +113,7 @@ exports.list = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+		    console.log('vidoes returning', videos);
 			res.jsonp(videos);
 		}
 	});

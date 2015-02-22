@@ -1,18 +1,29 @@
 {
-	"name": "vidmaximus",
-	"version": "0.0.1",
-	"description": "Video Management System in Full-Stack JS",
-	"dependencies": {
-		"bootstrap": "~3",
-		"angular": "~1.2",
-		"angular-resource": "~1.2",
-		"angular-mocks": "~1.2",
-		"angular-cookies": "~1.2",
-		"angular-animate": "~1.2",
-		"angular-touch": "~1.2",
-		"angular-sanitize": "~1.2",
-		"angular-bootstrap": "~0.11.2",
-		"angular-ui-utils": "~0.1.1",
-		"angular-ui-router": "~0.2.11"
-	}
+  "name": "vidmaximus",
+  "version": "0.0.1",
+  "description": "Video Management System in Full-Stack JS",
+  "dependencies": {
+    "bootstrap": "~3",
+    "angular": "~1.2",
+    "angular-resource": "~1.2",
+    "angular-mocks": "~1.2",
+    "angular-cookies": "~1.2",
+    "angular-animate": "~1.2",
+    "angular-touch": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-bootstrap": "~0.11.2",
+    "angular-ui-utils": "~0.1.1",
+    "angular-ui-router": "~0.2.11",
+    "angular-file-upload": "~1.1.5",
+    "ffmpeg.js": "~0.1.1",
+    "videogular": "~1.0.0",
+    "videogular-themes-default": "~1.0.0",
+    "videogular-controls": "~1.0.0",
+    "videogular-buffering": "~1.0.0",
+    "videogular-overlay-play": "~1.0.0",
+    "videogular-poster": "~1.0.0",
+    "videogular-ima-ads": "~1.0.0",
+    "videogular-angulartics": "~1.0.0",
+    "angular-thread": "~0.1.3"
+  }
 }

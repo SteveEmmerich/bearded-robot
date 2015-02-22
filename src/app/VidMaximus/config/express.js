@@ -8,6 +8,8 @@ var fs = require('fs'),
 	https = require('https'),
 	express = require('express'),
 	morgan = require('morgan'),
+    multer = require('multer'),
+    logger = require('./logger'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	compress = require('compression'),
@@ -53,6 +55,7 @@ module.exports = function(db) {
 		},
 		level: 9
 	}));
+    app.use(multer({ dest: config.video.location + '/raw' }));
 
 	// Showing stack errors
 	app.set('showStackError', true);
@@ -67,7 +70,11 @@ module.exports = function(db) {
 	// Environment dependent middleware
 	if (process.env.NODE_ENV === 'development') {
 		// Enable logger (morgan)
-		app.use(morgan('dev'));
+		app.use(morgan('dev',{
+            stream: {
+                write: function(str) { logger.debug(str); }
+            }
+        }));
 
 		// Disable views cache
 		app.set('view cache', false);
@@ -112,7 +119,8 @@ module.exports = function(db) {
 
 	// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
-
+	console.log(path.resolve('./data'));
+    app.use(express.static(path.resolve('./data')));
 	// Globbing routing files
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
 		require(path.resolve(routePath))(app);

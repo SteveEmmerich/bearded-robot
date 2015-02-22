@@ -3,7 +3,7 @@
 angular.module('videos').factory('Transcode', ['$rootScope',
     function($rootScope)
     {
-        var socket = io.connect();
+       return;/* var socket = io.connect();
         return {
             on: function(eventName, callback)
             {
@@ -35,6 +35,6 @@ angular.module('videos').factory('Transcode', ['$rootScope',
                 socket.emit('TransThumbs', fileItems, callback);
 
             }
-        };
+        };*/
     }
 ]);
