@@ -1,0 +1,44 @@
+{
+  "name": "TranMaximus",
+  "version": "0.0.1",
+  "description": "Node based transcoding application. Using ffmpeg.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "Transcode",
+    "video",
+    "node",
+    "ffmpeg"
+  ],
+  "author": "Steve Emmerich <steveemmerich@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "app-module-path": "^1.0.1",
+    "async": "^0.9.0",
+    "bluebird": "^2.9.12",
+    "body-parser": "^1.12.0",
+    "chalk": "^0.5.1",
+    "compression": "^1.4.1",
+    "consolidate": "^0.11.0",
+    "cookie-parser": "^1.3.4",
+    "express": "^4.11.2",
+    "fluent-ffmpeg": "^2.0.0-rc3",
+    "glob": "^4.4.1",
+    "lodash": "^3.3.1",
+    "log4js": "^0.6.22",
+    "method-override": "^2.3.1",
+    "multer": "^0.1.8",
+    "stream-body-parser": "0.0.1",
+    "streamifier": "^0.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-jshint": "^1.9.2",
+    "gulp-nodemon": "^1.0.5",
+    "gulp-uglify": "^1.1.0"
+  }
+}
