@@ -1,15 +1,18 @@
 var logger = require('lib/logger.js'),
-    config = require('lib/config.js'),
+    config = require('config/config.js'),
     async = require('async'),
     ffmpeg = require('fluent-ffmpeg'),
    // streamBodyParser = require('stream-body-parser'),
     streamifier = require('streamifier'),
-    stream = require('stream');
+    path = require('path'),
+    stream = require('stream'),
+    _ = require('lodash');
 
-var filter = ['video/*']
+var filter = ['video/*', 'application/octet-stream']
 
 module.exports.uploadStart = function(file, req, res)
 {
+    logger.debug('in upload start', file.mimetype, file.encoding);
     if (filter.indexOf(file.mimetype) <= -1)
         return false;
 };
@@ -17,21 +20,31 @@ module.exports.uploadComplete = function(file, req, res)
 {
         logger.debug('in uploadcomplete function');
         var inStream = streamifier.createReadStream(file.buffer)
+        inStream.on('open', function()
+        {
+            logger.debug('open');
+        });
         // Transcode the file into the mp4 format
         function done(err, data)
         {
             if(err)
-                next({err: err.message, data: data});
+            {
+              logger.error('error: ', err.message, 'data: ', data);
+              //throw err;
+              return false;
+            }
             req.formatData = data;
             console.log(data);
-            next();
+            //next();
             
         }
-        var fprobData = transProbe(inStream);
-        if (_.isUnDefined(fprobeData))
-            return next({err: 'probe data undefined'});
         
+                
         async.parallel([
+            function(callback)
+            {
+                transProbe(inStream, callback);
+            },
             function(callback)
             {
                 transMP4(inStream, callback);
@@ -61,7 +74,7 @@ module.exports.uploadComplete = function(file, req, res)
            });
     
 };
-function transProbe(stream)
+function transProbe(inStream, done)
 {
     var fprobeData;
     ffmpeg(inStream)
@@ -69,15 +82,18 @@ function transProbe(stream)
         {
             if (err)
             {
-               done(err);
+            logger.error(err);
+              // throw err;
             }
+            logger.debug(data);
             fprobeData = data;
+            done(err, data);
         });
      return fprobeData;
 };
-function transMP4(stream, callback)
+function transMP4(inStream, callback)
 {
-    var mp4 = new stream.duplex;
+    var mp4 = new stream.Duplex();
     ffmpeg(inStream, {logger: logger})
         .videoCodec('libx264')
         .audioCodec('libfacc')
@@ -99,10 +115,10 @@ function transMP4(stream, callback)
         })
         .pipe(mp4, {end:true});
 };
-function transWebM(stream, callback)
+function transWebM(inStream, callback)
 {
                 
-    var webm = new stream.duplex;
+    var webm = new stream.Duplex();
     // Transcode the file into the webm format
     ffmpeg(inStream, {logger: logger})
         .videoCodec('libvpx')
@@ -124,10 +140,10 @@ function transWebM(stream, callback)
         })
         .pipe(webm, {end:true});
 };
-function transOGG(stream, callback)
+function transOGG(inStream, callback)
 {
 
-   var ogg = new stream.duplex;
+   var ogg = new stream.Duplex();
    // Transcode the file into the ogg format    
    ffmpeg(inStream, {logger: logger})
         .videoCodec('libtheora')
@@ -149,10 +165,10 @@ function transOGG(stream, callback)
         })
         .pipe(ogg, {end:true});
 };
-function transFlash(stream, callback)
+function transFlash(inStream, callback)
 {
 
-        var flv = new stream.duplex;
+        var flv = new stream.Duplex();
        // Transcode the file into the flash fallback format        
        ffmpeg(inStream, {logger: logger})
             .preset('flashvideo')
@@ -172,7 +188,7 @@ function transFlash(stream, callback)
             })
             .pipe(flv, {end:true});
 };
-function transScreenShots(stream, callback)
+function transScreenShots(inStream, callback)
 {
     var filename;  
     ffmpeg(inStream, {logger: logger})
@@ -183,16 +199,17 @@ function transScreenShots(stream, callback)
     .on('end', function()
     {
         logger.trace('screen shots created');
-        callback(null, filenames);
+        callback(null, filename);
     })
     .on('error', function(err)
     {
         logger.error('Error during screen shot creation: ', err.message);
-        callback(err, filenames);
+        callback(err, filename);
     })
     .screenshots({
-        count: 5,
-        folder: path.join(config.screenShotPath, fprobeDate.filename),
+        timemarks: ['20%', '40%', '60%', '80%'],
+        filename: 'thumbnail-at-%i-index.png',
+        folder: path.join(config.screenShotPath, 'new'),
     });             
 }
 

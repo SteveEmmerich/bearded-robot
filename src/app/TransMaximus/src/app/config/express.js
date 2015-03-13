@@ -1,6 +1,6 @@
 var express = require('express'),
     logger = require('lib/logger.js'),
-    config = require('lib/config.js'),
+    config = require('config/config.js'),
     video = require('components/middleware/video.js'),
     bodyParser = require('body-parser'),
     compress = require('compression'),
@@ -68,7 +68,7 @@ module.exports.initMiddleware = function (app)
     }));
     
     app.use(bodyParser.json());
-    app.use(bodyParser.raw());
+   // app.use(bodyParser.raw());
     app.use(methodOverride());
     
     // Add the cookie parser and flash middleware
@@ -97,7 +97,8 @@ module.exports.initServerRoutes = function (app)
     // Globbing routing files
     app.post('/uploads', function(req, res)
     {
-        logger.debug('request Object: ', req);
+        logger.debug('request');
+        res.send();
     });
     /*logger.debug(config.files.server.routes);
     config.files.server.routes.forEach(function (routePath) 

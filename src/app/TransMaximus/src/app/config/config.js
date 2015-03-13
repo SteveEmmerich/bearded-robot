@@ -1,8 +1,9 @@
 var _ = require('lodash'),
-    glob = require('glob');
+    glob = require('glob'),
+    path = require('path');
     
 module.exports = {
-    port: 5000,
+    port: 8000,
     logConfig: {
         appenders: [
             {
@@ -14,7 +15,7 @@ module.exports = {
             },
             {
                 type: 'file',
-                filename: '../logs/transMaximus.log',
+                filename: path.join(__dirname, '../', 'logs/transMaximus.log'),
                 maxLogSize: 10485760,
                 numBackups: 3
             },
@@ -23,7 +24,7 @@ module.exports = {
                 level: 'ERROR',
                 appender: {
                     type: 'file',
-                    filename: '../logs/tm_errors.log'
+                    filename: path.join(__dirname, '../','logs/tm_errors.log')
                 }
             }
         ],
@@ -33,6 +34,7 @@ module.exports = {
    ffprobePath: 'default',
    flvtoolsPath: 'default',
    flvmetaPath: 'default',
+   screenShotPath: path.join(__dirname, '../', 'screenshots'),
    files:
    {
         server: 

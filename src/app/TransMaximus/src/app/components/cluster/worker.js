@@ -1,6 +1,6 @@
 var promise = require('bluebird'),
     logger = require('lib/logger.js'),
-    config = require('lib/config.js'),
+    config = require('config/config.js'),
     cm = require('lib/cluster-manager.js'),
     express = require('config/express.js');
     
